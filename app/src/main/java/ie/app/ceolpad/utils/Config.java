@@ -31,6 +31,7 @@ public class Config {
     //others for general purpose key-value pair data
     public static final String TITLE = "title";
     public static final String CREATE_MUSIC_CLASS  = "create_music_class";
+    public static final String UPDATE_MUSIC_CLASS = "update_music_class";
     public static final String CREATE_STUDENT = "create_student";
     public static final String UPDATE_STUDENT = "update_student";
     public static final String CREATE_SUBJECT = "create_subject";

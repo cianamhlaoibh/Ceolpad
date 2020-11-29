@@ -60,7 +60,7 @@ public class MusicClassAddFragment extends DialogFragment {
         etClassName = view.findViewById(R.id.etClassName);
         spDay = view.findViewById(R.id.spDay);
         etTime = view.findViewById(R.id.etTime);
-        btnAdd = view.findViewById(R.id.btnAdd);
+        btnAdd = view.findViewById(R.id.btnUpdate);
         btnCancel = view.findViewById(R.id.btnCancel);
 
         String title = getArguments().getString(Config.TITLE);

@@ -75,17 +75,17 @@ public class MusicClassDao {
 
             if(cursor!=null)
                 if(cursor.moveToFirst()){
-                    List<MusicClass> studentList = new ArrayList<>();
+                    List<MusicClass> musicClassList = new ArrayList<>();
                     do {
                         int id = cursor.getInt(cursor.getColumnIndex(Config.COLUMN_CLASS_ID));
                         String name = cursor.getString(cursor.getColumnIndex(Config.COLUMN_CLASS_NAME));
                         String day = cursor.getString(cursor.getColumnIndex(Config.COLUMN_CLASS_DAY));
                         String time = cursor.getString(cursor.getColumnIndex(Config.COLUMN_CLASS_TIME));
 
-                        studentList.add(new MusicClass(id, name, day, time));
+                        musicClassList.add(new MusicClass(id, name, day, time));
                     }   while (cursor.moveToNext());
 
-                    return studentList;
+                    return musicClassList;
                 }
         } catch (Exception e){
             Log.d("IS4447", "Exception: "+ e.getMessage());
@@ -97,6 +97,91 @@ public class MusicClassDao {
         }
 
         return Collections.emptyList();
+    }
+
+    public MusicClass getClassById(long idnum){
+
+        DatabaseHelper databaseHelper = DatabaseHelper.getInstance(context);
+        SQLiteDatabase sqLiteDatabase = databaseHelper.getReadableDatabase();
+
+        Cursor cursor = null;
+        MusicClass musicClass = null;
+        try {
+
+            cursor = sqLiteDatabase.query(Config.TABLE_MUSIC_CLASS, null,
+                    Config.COLUMN_CLASS_ID+ " = ? ", new String[]{String.valueOf(idnum)},
+                    null, null, null);
+
+            /**
+             // If you want to execute raw query then uncomment below 2 lines. And comment out above sqLiteDatabase.query() method.
+
+             String SELECT_QUERY = String.format("SELECT * FROM %s WHERE %s = %s", Config.TABLE_STUDENT, Config.COLUMN_STUDENT_REGISTRATION, String.valueOf(registrationNum));
+             cursor = sqLiteDatabase.rawQuery(SELECT_QUERY, null);
+             */
+
+            if(cursor.moveToFirst()){
+                int id = cursor.getInt(cursor.getColumnIndex(Config.COLUMN_CLASS_ID));
+                String name = cursor.getString(cursor.getColumnIndex(Config.COLUMN_CLASS_NAME));
+                String day = cursor.getString(cursor.getColumnIndex(Config.COLUMN_CLASS_DAY));
+                String time = cursor.getString(cursor.getColumnIndex(Config.COLUMN_CLASS_TIME));
+
+                musicClass = new MusicClass(id, name, day, time);
+            }
+        } catch (Exception e){
+            Log.d("IS4447", "Exception: "+ e.getMessage());
+            Toast.makeText(context, "Operation failed", Toast.LENGTH_SHORT).show();
+        } finally {
+            if(cursor!=null)
+                cursor.close();
+            sqLiteDatabase.close();
+        }
+
+        return musicClass;
+    }
+
+    public long updateMusicClassInfo(MusicClass musicClass){
+
+        long rowCount = 0;
+        DatabaseHelper databaseHelper = DatabaseHelper.getInstance(context);
+        SQLiteDatabase sqLiteDatabase = databaseHelper.getWritableDatabase();
+
+        ContentValues contentValues = new ContentValues();
+        contentValues.put(Config.COLUMN_CLASS_NAME, musicClass.getClassName());
+        contentValues.put(Config.COLUMN_CLASS_DAY, musicClass.getDay());
+        contentValues.put(Config.COLUMN_CLASS_TIME, musicClass.getTime());
+
+        try {
+            rowCount = sqLiteDatabase.update(Config.TABLE_MUSIC_CLASS, contentValues,
+                    Config.COLUMN_CLASS_ID + " = ? ",
+                    new String[] {String.valueOf(musicClass.getId())});
+        } catch (SQLiteException e){
+            Log.d("IS4447", "Exception: "+ e.getMessage());
+            Toast.makeText(context, e.getMessage(), Toast.LENGTH_LONG).show();
+        } finally {
+            sqLiteDatabase.close();
+        }
+
+        return rowCount;
+    }
+
+    public long deleteMusicClass(long idnum) {
+
+        long deletedRowCount = -1;
+        DatabaseHelper databaseHelper = DatabaseHelper.getInstance(context);
+        SQLiteDatabase sqLiteDatabase = databaseHelper.getWritableDatabase();
+
+        try {
+            deletedRowCount = sqLiteDatabase.delete(Config.TABLE_MUSIC_CLASS,
+                    Config.COLUMN_CLASS_ID + " = ? ",
+                    new String[]{ String.valueOf(idnum)});
+        } catch (SQLiteException e){
+            Log.d("IS4447", "Exception: "+ e.getMessage());
+            Toast.makeText(context, e.getMessage(), Toast.LENGTH_LONG).show();
+        } finally {
+            sqLiteDatabase.close();
+        }
+
+        return deletedRowCount;
     }
 
 }

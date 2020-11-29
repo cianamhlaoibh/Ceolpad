@@ -16,6 +16,10 @@ import java.util.List;
 import ie.app.ceolpad.R;
 import ie.app.ceolpad.dao.MusicClassDao;
 import ie.app.ceolpad.model.MusicClass;
+import ie.app.ceolpad.utils.Config;
+import ie.app.ceolpad.view.UpdateListener;
+import ie.app.ceolpad.view.musicclass.MusicClassListActivity;
+import ie.app.ceolpad.view.musicclass.MusicClassUpdateFragment;
 
 public class ClassListRecyclerAdapter extends RecyclerView.Adapter<ClassListViewHolder>{
 
@@ -46,12 +50,17 @@ public class ClassListRecyclerAdapter extends RecyclerView.Adapter<ClassListView
         holder.tvTime.setText(musicClass.getTime());
 
 
-
-
         holder.ibEdit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
+                MusicClassUpdateFragment musicClassUpdateFragment = MusicClassUpdateFragment.newInstance(musicClass.getId(), itemPosition, new UpdateListener() {
+                    @Override
+                    public void onMusicClassUpdated(MusicClass musicClass, int position) {
+                        classList.set(position, musicClass);
+                        notifyDataSetChanged();
+                    }
+                });
+                musicClassUpdateFragment.show(((MusicClassListActivity) context).getSupportFragmentManager(), Config.UPDATE_MUSIC_CLASS);
             }
         });
 
@@ -70,4 +79,5 @@ public class ClassListRecyclerAdapter extends RecyclerView.Adapter<ClassListView
     public int getItemCount() {
         return  classList.size();
     }
+
 }
