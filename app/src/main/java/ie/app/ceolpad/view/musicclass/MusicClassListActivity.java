@@ -106,6 +106,7 @@ public class MusicClassListActivity extends AppCompatActivity implements CreateL
                     deletedClass = classList.get(position);
                     String message = "Are you sure you want to delete " + deletedClass.getClassName();
 
+                    //ADD REFERENCE
                     AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(MusicClassListActivity.this);
                     alertDialogBuilder.setMessage(message);
                     alertDialogBuilder.setPositiveButton("Yes",

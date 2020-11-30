@@ -6,31 +6,33 @@ import java.util.Date;
 
 public class Lesson {
 
-    private Date lessonDate;
-    private Uri imageUri;
+    private long lessonId;
+    private String lessonDate;
+    private String imageUri;
     private String notes;
 
     public Lesson(){}
 
-    public Lesson(Date date, Uri image, String notes) {
+    public Lesson(long id,String date, String image, String notes) {
+        this.lessonId = id;
         this.lessonDate = date;
         this.imageUri = image;
         this.notes = notes;
     }
 
-    public Date getLessonDate() {
+    public String getLessonDate() {
         return lessonDate;
     }
 
-    public void setLessonDate(Date lessonDate) {
+    public void setLessonDate(String lessonDate) {
         this.lessonDate = lessonDate;
     }
 
-    public Uri getImageUri() {
+    public String getImageUri() {
         return imageUri;
     }
 
-    public void setImageUri(Uri imageUri) {
+    public void setImageUri(String imageUri) {
         this.imageUri = imageUri;
     }
 
@@ -40,5 +42,13 @@ public class Lesson {
 
     public void setNotes(String notes) {
         this.notes = notes;
+    }
+
+    public long getLessonId() {
+        return lessonId;
+    }
+
+    public void setLessonId(long lessonId) {
+        this.lessonId = lessonId;
     }
 }

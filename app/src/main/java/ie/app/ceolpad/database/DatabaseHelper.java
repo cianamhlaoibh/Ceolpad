@@ -50,6 +50,13 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                 + Config.COLUMN_CLASS_TIME + " TEXT NOT NULL" //nullable
                 + ")";
 
+        String CREATE_LESSON_TABLE = "CREATE TABLE " + Config.TABLE_LESSON + "("
+                + Config.COLUMN_LESSON_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, "
+                + Config.COLUMN_LESSON_DATE + " TEXT NOT NULL, "
+                + Config.COLUMN_LESSON_IMAGE + " TEXT, " //nullable
+                + Config.COLUMN_LESSON_NOTES + " TEXT NOT NULL" //nullable
+                + ")";
+
        // String CREATE_SUBJECT_TABLE = "CREATE TABLE " + Config.TABLE_SUBJECT + "("
         //        + Config.COLUMN_SUBJECT_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, "
        //         + Config.COLUMN_REGISTRATION_NUMBER + " INTEGER NOT NULL, "
@@ -61,6 +68,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
        //         + ")";
 
         db.execSQL(CREATE_MUSIC_CLASS_TABLE);
+        db.execSQL(CREATE_LESSON_TABLE);
 
         Log.d("IS4447","DB created!");
     }
@@ -69,6 +77,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
         // Drop older table if existed
         db.execSQL("DROP TABLE IF EXISTS " + Config.TABLE_MUSIC_CLASS);
+        db.execSQL("DROP TABLE IF EXISTS " + Config.TABLE_LESSON);
         // Create tables again
         onCreate(db);
     }

@@ -57,7 +57,7 @@ public class MusicClassAddFragment extends DialogFragment {
 
         View view = inflater.inflate(R.layout.fragment_music_class_add, container, false);
 
-        etClassName = view.findViewById(R.id.etClassName);
+        etClassName = view.findViewById(R.id.etNotes);
         spDay = view.findViewById(R.id.spDay);
         etTime = view.findViewById(R.id.etTime);
         btnAdd = view.findViewById(R.id.btnUpdate);

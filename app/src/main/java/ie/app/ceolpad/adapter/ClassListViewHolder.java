@@ -22,7 +22,7 @@ public class ClassListViewHolder extends RecyclerView.ViewHolder  {
         super(itemView);
 
         tvDay = itemView.findViewById(R.id.tvDay);
-        tvClassName = itemView.findViewById(R.id.tvClassName);
+        tvClassName = itemView.findViewById(R.id.tvDate);
         tvTime = itemView.findViewById(R.id.tvTime);
         ibEdit = itemView.findViewById(R.id.ibEdit);
     }

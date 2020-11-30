@@ -64,7 +64,7 @@ public class MusicClassUpdateFragment extends DialogFragment {
 
         musicClassDao = new MusicClassDao(getContext());
 
-        etClassName = view.findViewById(R.id.etClassName);
+        etClassName = view.findViewById(R.id.etNotes);
         spDay = view.findViewById(R.id.spDay);
         etTime = view.findViewById(R.id.etTime);
         btnUpdate = view.findViewById(R.id.btnUpdate);

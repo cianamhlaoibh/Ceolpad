@@ -19,6 +19,13 @@ public class Config {
     public static final String COLUMN_CLASS_DAY = "day";
     public static final String COLUMN_CLASS_TIME = "time";
 
+    //column names of music class table
+    public static final String TABLE_LESSON= "music_class";
+    public static final String COLUMN_LESSON_ID = "id";
+    public static final String COLUMN_LESSON_DATE = "date";
+    public static final String COLUMN_LESSON_IMAGE = "image";
+    public static final String COLUMN_LESSON_NOTES = "notes";
+
     //column names of subject table
     public static final String TABLE_SUBJECT = "subject";
     public static final String COLUMN_SUBJECT_ID = "_id";
@@ -34,7 +41,7 @@ public class Config {
     public static final String UPDATE_MUSIC_CLASS = "update_music_class";
     public static final String CREATE_STUDENT = "create_student";
     public static final String UPDATE_STUDENT = "update_student";
-    public static final String CREATE_SUBJECT = "create_subject";
-    public static final String UPDATE_SUBJECT = "update_subject";
-    public static final String STUDENT_REGISTRATION = "student_registration";
+    public static final String CREATE_LESSON = "create_lesson";
+    public static final String UPDATE_LESONN = "update_lesson";
+    public static final String MUSIC_CLASS_ID = "music_class_id";
 }

@@ -19,4 +19,7 @@
         <item>Saturday</item>
         <item>Sunday</item>
     </string-array>
+    <string name="title_activity_lesson">LessonActivity</string>
+    <string name="tab_text_1">Lessons</string>
+    <string name="tab_text_2">Students</string>
 </resources>
