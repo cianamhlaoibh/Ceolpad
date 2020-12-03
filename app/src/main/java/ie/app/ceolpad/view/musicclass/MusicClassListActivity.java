@@ -106,41 +106,20 @@ public class MusicClassListActivity extends AppCompatActivity implements CreateL
                     deletedClass = classList.get(position);
                     String message = "Are you sure you want to delete " + deletedClass.getClassName();
 
-                    //ADD REFERENCE
-                    AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(MusicClassListActivity.this);
-                    alertDialogBuilder.setMessage(message);
-                    alertDialogBuilder.setPositiveButton("Yes",
-                            new DialogInterface.OnClickListener() {
-                                @Override
-                                public void onClick(DialogInterface arg0, int arg1) {
-                                    deleteMusicClass(position);
-                                }
-                            });
+                    deleteMusicClass(position);
 
-                    alertDialogBuilder.setNegativeButton("No",new DialogInterface.OnClickListener() {
-                        @Override
-                        public void onClick(DialogInterface dialog, int which) {
-                            dialog.dismiss();
-                        }
-                    });
-
-                    AlertDialog alertDialog = alertDialogBuilder.create();
-                    alertDialog.show();
-
-                    /*
-                    classList.remove(position);
-                    classListRecyclerAdapter.notifyItemRemoved(position);
                     Snackbar.make(rvList, message,Snackbar.LENGTH_LONG)
                             .setAction("Undo", new View.OnClickListener() {
                                 @Override
                                 public void onClick(View v) {
                                     classList.add(position, deletedClass);
                                     classListRecyclerAdapter.notifyItemInserted(position);
+                                    musicClassDao.insertStudent(deletedClass);
+                                    viewVisibility();
                                 }
                             }).show();
                     break;
 
-                     */
                 case ItemTouchHelper.RIGHT:
 
                     break;

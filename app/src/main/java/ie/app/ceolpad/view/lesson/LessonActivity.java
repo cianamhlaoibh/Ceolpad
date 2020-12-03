@@ -11,6 +11,8 @@ import androidx.viewpager.widget.ViewPager;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.view.View;
+import android.widget.TextView;
+
 import ie.app.ceolpad.R;
 
 
@@ -24,6 +26,7 @@ public class LessonActivity extends AppCompatActivity {
     private TabLayout tabLayout;
     private ViewPager viewPager;
     private ViewPagerAdapter viewPagerAdapter;
+    private TextView tvTitle;
     private long classId;
 
     @Override
@@ -32,6 +35,7 @@ public class LessonActivity extends AppCompatActivity {
         setContentView(R.layout.activity_lesson);
 
         classId = getIntent().getLongExtra(Config.MUSIC_CLASS_ID, -1);
+        final String className = getIntent().getStringExtra(Config.MUSIC_CLASS_NAME);
 
         viewPager = (ViewPager) findViewById(R.id.view_pager);
         viewPagerAdapter = new ViewPagerAdapter(getSupportFragmentManager(), classId);
@@ -39,15 +43,19 @@ public class LessonActivity extends AppCompatActivity {
         tabLayout = (TabLayout) findViewById(R.id.tabs);
         tabLayout.setupWithViewPager(viewPager);
 
+        tvTitle = findViewById(R.id.title);
+        tvTitle.setText(className  + " Class Info");
 
         FloatingActionButton fab = findViewById(R.id.fab);
-
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(LessonActivity.this, AddLessonActivity.class);
+                intent.putExtra(Config.MUSIC_CLASS_ID, classId);
+                intent.putExtra(Config.MUSIC_CLASS_NAME, className);
                 startActivity(intent);
             }
         });
     }
+
 }

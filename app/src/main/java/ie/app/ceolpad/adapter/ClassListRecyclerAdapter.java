@@ -68,6 +68,7 @@ public class ClassListRecyclerAdapter extends RecyclerView.Adapter<ClassListView
             public void onClick(View view) {
                 Intent intent = new Intent(context, LessonActivity.class);
                 intent.putExtra(Config.MUSIC_CLASS_ID, musicClass.getId());
+                intent.putExtra(Config.MUSIC_CLASS_NAME, musicClass.getClassName());
                 context.startActivity(intent);
             }
         });

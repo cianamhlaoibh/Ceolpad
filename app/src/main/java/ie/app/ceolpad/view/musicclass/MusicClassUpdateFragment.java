@@ -67,7 +67,7 @@ public class MusicClassUpdateFragment extends DialogFragment {
         etClassName = view.findViewById(R.id.etNotes);
         spDay = view.findViewById(R.id.spDay);
         etTime = view.findViewById(R.id.etTime);
-        btnUpdate = view.findViewById(R.id.btnUpdate);
+        btnUpdate = view.findViewById(R.id.btnAdd);
         btnCancel = view.findViewById(R.id.btnCancel);
 
         String title = getArguments().getString(Config.TITLE);

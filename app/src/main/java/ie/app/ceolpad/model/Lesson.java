@@ -8,7 +8,7 @@ public class Lesson {
 
     private long lessonId;
     private String lessonDate;
-    private String imageUri;
+    private String imagePath;
     private String notes;
 
     public Lesson(){}
@@ -16,7 +16,7 @@ public class Lesson {
     public Lesson(long id,String date, String image, String notes) {
         this.lessonId = id;
         this.lessonDate = date;
-        this.imageUri = image;
+        this.imagePath = image;
         this.notes = notes;
     }
 
@@ -28,12 +28,12 @@ public class Lesson {
         this.lessonDate = lessonDate;
     }
 
-    public String getImageUri() {
-        return imageUri;
+    public String getimagePath() {
+        return imagePath;
     }
 
-    public void setImageUri(String imageUri) {
-        this.imageUri = imageUri;
+    public void setimagePath(String imagePath) {
+        this.imagePath = imagePath;
     }
 
     public String getNotes() {
