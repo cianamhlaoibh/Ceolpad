@@ -42,9 +42,9 @@ import it.xabaras.android.recyclerview.swipedecorator.RecyclerViewSwipeDecorator
 public class LessonFragment extends Fragment implements OnClickLisener {
 
     public static RecyclerView recyclerView;
-    LessonListReyclerAdapter lessonListReyclerAdapter;
-    Context context;
-    LessonDao lessonDao;
+    private LessonListReyclerAdapter lessonListReyclerAdapter;
+    private Context context;
+    private LessonDao lessonDao;
     private ArrayList<Lesson> lessonList = new ArrayList<>();
     private TextView tvEmptyList;
     private long classId;

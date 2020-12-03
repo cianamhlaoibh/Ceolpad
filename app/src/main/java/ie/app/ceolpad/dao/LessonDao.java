@@ -27,7 +27,7 @@ public class LessonDao {
         this.context = context;
     }
 
-    public List<Lesson> getAllLessonById(long idnum){
+    public List<Lesson> getAllLessonById(long fkClassId){
         DatabaseHelper databaseHelper = DatabaseHelper.getInstance(context);
         SQLiteDatabase sqLiteDatabase = databaseHelper.getReadableDatabase();
 
@@ -37,7 +37,7 @@ public class LessonDao {
             cursor = sqLiteDatabase.query(Config.TABLE_LESSON,
                     new String[] {Config.COLUMN_LESSON_ID, Config.COLUMN_LESSON_DATE, Config.COLUMN_LESSON_IMAGE, Config.COLUMN_LESSON_NOTES},
                     Config.COLUMN_FK_CLASS_ID + " = ? ",
-                    new String[] {String.valueOf(idnum)},
+                    new String[] {String.valueOf(fkClassId)},
                     null, null, null);
 
             if(cursor!=null && cursor.moveToFirst()){
@@ -64,6 +64,42 @@ public class LessonDao {
         return lessonList;
     }
 
+    public Lesson getSingleLessonById(long idnum){
+        DatabaseHelper databaseHelper = DatabaseHelper.getInstance(context);
+        SQLiteDatabase sqLiteDatabase = databaseHelper.getReadableDatabase();
+
+        Lesson lesson = null;
+        Cursor cursor = null;
+        try{
+            cursor = sqLiteDatabase.query(Config.TABLE_LESSON,
+                    new String[] {Config.COLUMN_LESSON_ID, Config.COLUMN_LESSON_DATE, Config.COLUMN_LESSON_IMAGE, Config.COLUMN_LESSON_NOTES},
+                    Config.COLUMN_LESSON_ID + " = ? ",
+                    new String[] {String.valueOf(idnum)},
+                    null, null, null);
+
+            if(cursor!=null && cursor.moveToFirst()){
+                do {
+                    //ONLY NEED ID AND DATE
+                    int id = cursor.getInt(cursor.getColumnIndex(Config.COLUMN_LESSON_ID));
+                    String date = cursor.getString(cursor.getColumnIndex(Config.COLUMN_LESSON_DATE));
+                    //https://beginnersbook.com/2013/04/java-string-to-date-conversion/
+                    String image = cursor.getString(cursor.getColumnIndex(Config.COLUMN_LESSON_IMAGE));
+                    String notes = cursor.getString(cursor.getColumnIndex(Config.COLUMN_LESSON_NOTES));
+
+                    lesson = new Lesson(id, date, image, notes);
+                } while (cursor.moveToNext());
+            }
+        } catch (SQLiteException e){
+            Toast.makeText(context, e.getMessage(), Toast.LENGTH_LONG).show();
+        } finally {
+            if(cursor!=null)
+                cursor.close();
+            sqLiteDatabase.close();
+        }
+
+        return lesson;
+    }
+
     public long insertLesson(Lesson lesson, long fkClassId){
 
         long id = -1;
@@ -86,6 +122,28 @@ public class LessonDao {
         }
 
         return id;
+    }
+
+    public long updateLesson(long id, String updatedNote){
+
+        long rowCount = 0;
+        DatabaseHelper databaseHelper = DatabaseHelper.getInstance(context);
+        SQLiteDatabase sqLiteDatabase = databaseHelper.getWritableDatabase();
+
+        ContentValues contentValues = new ContentValues();
+        contentValues.put(Config.COLUMN_LESSON_NOTES, updatedNote);
+
+        try {
+            rowCount = sqLiteDatabase.update(Config.TABLE_LESSON, contentValues,
+                    Config.COLUMN_LESSON_ID + " = ? ",
+                    new String[] {String.valueOf(id)});
+        } catch (SQLiteException e){
+            Log.d("IS4447", "Exception: "+ e.getMessage());
+            Toast.makeText(context, e.getMessage(), Toast.LENGTH_LONG).show();
+        } finally {
+            sqLiteDatabase.close();
+        }
+        return rowCount;
     }
 
     public long deleteLesson(long lessonId) {

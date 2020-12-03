@@ -45,13 +45,4 @@
         app:layout_constraintStart_toEndOf="@+id/tvdash"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <ImageButton
-        android:id="@+id/ibEdit"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:backgroundTint="@android:color/transparent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@drawable/ic_baseline_edit_24" />
-
 </androidx.constraintlayout.widget.ConstraintLayout>
