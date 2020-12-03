@@ -21,10 +21,10 @@
         android:textSize="16sp"
         android:textStyle="normal"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/tvDay" />
+        app:layout_constraintTop_toBottomOf="@+id/tvLesson" />
 
     <TextView
-        android:id="@+id/tvDay"
+        android:id="@+id/tvLesson"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textSize="18sp"
@@ -40,7 +40,7 @@
         android:textSize="18sp"
         android:textStyle="normal"
         app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/tvDay"
+        app:layout_constraintStart_toEndOf="@+id/tvLesson"
         app:layout_constraintTop_toTopOf="parent"
         android:text=" - " />
 

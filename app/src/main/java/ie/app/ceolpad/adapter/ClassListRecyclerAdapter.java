@@ -16,7 +16,7 @@ import ie.app.ceolpad.dao.MusicClassDao;
 import ie.app.ceolpad.model.MusicClass;
 import ie.app.ceolpad.utils.Config;
 import ie.app.ceolpad.view.UpdateListener;
-import ie.app.ceolpad.view.lesson.LessonActivity;
+import ie.app.ceolpad.view.classinfo.ClassInfoActivity;
 import ie.app.ceolpad.view.musicclass.MusicClassListActivity;
 import ie.app.ceolpad.view.musicclass.MusicClassUpdateFragment;
 
@@ -66,7 +66,7 @@ public class ClassListRecyclerAdapter extends RecyclerView.Adapter<ClassListView
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(context, LessonActivity.class);
+                Intent intent = new Intent(context, ClassInfoActivity.class);
                 intent.putExtra(Config.MUSIC_CLASS_ID, musicClass.getId());
                 intent.putExtra(Config.MUSIC_CLASS_NAME, musicClass.getClassName());
                 context.startActivity(intent);

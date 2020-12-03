@@ -1,8 +1,6 @@
-package ie.app.ceolpad.view.lesson.ui.main;
+package ie.app.ceolpad.view.classinfo.ui.main;
 
-import android.bluetooth.BluetoothManager;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Canvas;
 import android.os.Bundle;
@@ -10,11 +8,9 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.appcompat.app.AlertDialog;
 import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.ItemTouchHelper;
@@ -24,22 +20,17 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.google.android.material.snackbar.Snackbar;
 
 import java.util.ArrayList;
-import java.util.List;
 
 import ie.app.ceolpad.R;
-import ie.app.ceolpad.adapter.ClassListRecyclerAdapter;
 import ie.app.ceolpad.adapter.LessonListReyclerAdapter;
 import ie.app.ceolpad.dao.LessonDao;
 import ie.app.ceolpad.model.Lesson;
-import ie.app.ceolpad.model.MusicClass;
 import ie.app.ceolpad.utils.Config;
-import ie.app.ceolpad.view.OnClickLisener;
-import ie.app.ceolpad.view.lesson.LessonActivity;
-import ie.app.ceolpad.view.lesson.ViewEditLessonActivity;
-import ie.app.ceolpad.view.musicclass.MusicClassListActivity;
+import ie.app.ceolpad.view.RecyclerItemOnClickListener;
+import ie.app.ceolpad.view.classinfo.ViewEditLessonActivity;
 import it.xabaras.android.recyclerview.swipedecorator.RecyclerViewSwipeDecorator;
 
-public class LessonFragment extends Fragment implements OnClickLisener {
+public class LessonFragment extends Fragment implements RecyclerItemOnClickListener {
 
     public static RecyclerView recyclerView;
     private LessonListReyclerAdapter lessonListReyclerAdapter;
@@ -56,8 +47,7 @@ public class LessonFragment extends Fragment implements OnClickLisener {
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View rootView = inflater.inflate(
-                R.layout.fragment_lesson, container, false);
+        View rootView = inflater.inflate(R.layout.fragment_lesson, container, false);
         return rootView;
     }
 

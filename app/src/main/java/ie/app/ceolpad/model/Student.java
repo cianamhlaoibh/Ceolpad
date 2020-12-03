@@ -7,13 +7,13 @@ public class Student {
     private long id;
     private String firstName;
     private String surname;
-    private Date registerDate;
+    private String registerDate;
     private String instrument;
     private String email;
 
     public Student(){}
 
-    public Student(long id, String firstName, String surname, Date registerDate, String instrument, String email){
+    public Student(long id, String firstName, String surname, String registerDate, String instrument, String email){
         this.id = id;
         this.firstName = firstName;
         this.surname = surname;
@@ -55,11 +55,11 @@ public class Student {
         this.instrument = instrument;
     }
 
-    public Date getRegisterDate() {
+    public String getRegisterDate() {
         return registerDate;
     }
 
-    public void setRegisterDate(Date registerDate) {
+    public void setRegisterDate(String registerDate) {
         this.registerDate = registerDate;
     }
 

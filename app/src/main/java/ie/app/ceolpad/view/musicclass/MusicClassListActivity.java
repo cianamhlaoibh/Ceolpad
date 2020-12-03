@@ -1,7 +1,5 @@
 package ie.app.ceolpad.view.musicclass;
 
-import android.content.ClipData;
-import android.content.DialogInterface;
 import android.graphics.Canvas;
 import android.os.Bundle;
 
@@ -9,7 +7,6 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.snackbar.Snackbar;
 
 import androidx.annotation.NonNull;
-import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.core.content.ContextCompat;
@@ -74,7 +71,7 @@ public class MusicClassListActivity extends AppCompatActivity implements CreateL
 
         viewVisibility();
 
-        FloatingActionButton fab = findViewById(R.id.fab);
+        FloatingActionButton fab = findViewById(R.id.fabAddLesson);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {

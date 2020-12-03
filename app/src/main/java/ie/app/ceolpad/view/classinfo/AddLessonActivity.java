@@ -1,7 +1,6 @@
-package ie.app.ceolpad.view.lesson;
+package ie.app.ceolpad.view.classinfo;
 
 import android.Manifest;
-import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
@@ -9,31 +8,20 @@ import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
-import android.os.Environment;
-import android.provider.MediaStore;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
-import androidx.core.app.ActivityCompat;
-import androidx.core.content.ContextCompat;
-import androidx.core.content.FileProvider;
 
-import java.io.File;
-import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
-import java.text.SimpleDateFormat;
-import java.time.LocalDate;
-import java.util.Calendar;
 import java.util.Date;
 
 import ie.app.ceolpad.R;
@@ -41,7 +29,6 @@ import ie.app.ceolpad.dao.LessonDao;
 import ie.app.ceolpad.model.Lesson;
 import ie.app.ceolpad.utils.Config;
 import ie.app.ceolpad.utils.ImageFilePath;
-import ie.app.ceolpad.view.lesson.ui.main.LessonFragment;
 
 public class AddLessonActivity extends AppCompatActivity implements View.OnClickListener{
 

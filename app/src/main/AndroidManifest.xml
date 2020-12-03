@@ -27,7 +27,7 @@
         </provider>
 
         <activity
-            android:name=".view.lesson.LessonActivity"
+            android:name=".view.classinfo.ClassInfoActivity"
             android:label="@string/title_activity_lesson"
             android:theme="@style/AppTheme.NoActionBar"></activity>
         <activity
@@ -41,10 +41,13 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".view.lesson.AddLessonActivity"
+            android:name=".view.classinfo.AddLessonActivity"
             android:theme="@style/AppTheme.NoActionBar"/>
         <activity
-            android:name=".view.lesson.ViewEditLessonActivity"
+            android:name=".view.classinfo.ViewEditLessonActivity"
+            android:theme="@style/AppTheme.NoActionBar"/>
+        <activity
+            android:name=".view.classinfo.AddStudentActivity"
             android:theme="@style/AppTheme.NoActionBar"/>
     </application>
 

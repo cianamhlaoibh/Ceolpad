@@ -30,9 +30,9 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     }
 
     public static DatabaseHelper getInstance(Context context) {
-        if(databaseHelper==null){
+        if (databaseHelper == null) {
             synchronized (DatabaseHelper.class) {
-                if(databaseHelper==null)
+                if (databaseHelper == null)
                     databaseHelper = new DatabaseHelper(context);
             }
         }
@@ -56,23 +56,26 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                 + Config.COLUMN_LESSON_IMAGE + " TEXT, " //nullable
                 + Config.COLUMN_LESSON_NOTES + " TEXT NOT NULL,"
                 + Config.COLUMN_FK_CLASS_ID + " INTEGER, "
-                + "FOREIGN KEY (" + Config.COLUMN_FK_CLASS_ID + ") REFERENCES " + Config.TABLE_MUSIC_CLASS+ "(" + Config.COLUMN_CLASS_ID + ") ON UPDATE CASCADE ON DELETE CASCADE" //deletes all lessons if parent music class is deleted
-               + ")";
+                + "FOREIGN KEY (" + Config.COLUMN_FK_CLASS_ID + ") REFERENCES " + Config.TABLE_MUSIC_CLASS + "(" + Config.COLUMN_CLASS_ID + ") ON UPDATE CASCADE ON DELETE CASCADE" //deletes all lessons if parent music class is deleted
+                + ")";
 
-       // String CREATE_SUBJECT_TABLE = "CREATE TABLE " + Config.TABLE_SUBJECT + "("
-        //        + Config.COLUMN_SUBJECT_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, "
-       //         + Config.COLUMN_REGISTRATION_NUMBER + " INTEGER NOT NULL, "
-       //         + Config.COLUMN_SUBJECT_NAME + " TEXT NOT NULL, "
-       //         + Config.COLUMN_SUBJECT_CODE + " INTEGER NOT NULL, "
-       //         + Config.COLUMN_SUBJECT_CREDIT + " REAL, " //nullable
-       //         + "FOREIGN KEY (" + Config.COLUMN_REGISTRATION_NUMBER + ") REFERENCES " + Config.TABLE_STUDENT + "(" + Config.COLUMN_STUDENT_REGISTRATION + ") ON UPDATE CASCADE ON DELETE CASCADE, "
-      //          + "CONSTRAINT " + Config.STUDENT_SUB_CONSTRAINT + " UNIQUE (" + Config.COLUMN_REGISTRATION_NUMBER + "," + Config.COLUMN_SUBJECT_CODE + ")"
-       //         + ")";
+        // Create tables SQL execution
+        String CREATE_STUDENT_TABLE = "CREATE TABLE " + Config.TABLE_STUDENT + "("
+                + Config.COLUMN_STUDENT_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, "
+                + Config.COLUMN_STUDENT_FIRST_NAME + " TEXT NOT NULL, "
+                + Config.COLUMN_STUDENT_SURNAME + " TEXT NOT NULL, "
+                + Config.COLUMN_STUDENT_INSTRUMENT + " TEXT, "
+                + Config.COLUMN_STUDENT_EMAIL + " TEXT NOT NULL, "
+                + Config.COLUMN_STUDENT_REGISTRATION_DATE + " TEXT NOT NULL, "
+                + Config.COLUMN_FK_CLASS_ID + " INTEGER, "
+                + "FOREIGN KEY (" + Config.COLUMN_FK_CLASS_ID + ") REFERENCES " + Config.TABLE_MUSIC_CLASS + "(" + Config.COLUMN_CLASS_ID + ")"
+                + ")";
 
         db.execSQL(CREATE_MUSIC_CLASS_TABLE);
         db.execSQL(CREATE_LESSON_TABLE);
+        db.execSQL(CREATE_STUDENT_TABLE);
 
-        Log.d("IS4447","DB created!");
+        Log.d("IS4447", "DB created!");
     }
 
     @Override
@@ -80,6 +83,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         // Drop older table if existed
         db.execSQL("DROP TABLE IF EXISTS " + Config.TABLE_MUSIC_CLASS);
         db.execSQL("DROP TABLE IF EXISTS " + Config.TABLE_LESSON);
+        db.execSQL("DROP TABLE IF EXISTS " + Config.TABLE_STUDENT);
         // Create tables again
         onCreate(db);
     }

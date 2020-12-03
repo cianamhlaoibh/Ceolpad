@@ -1,17 +1,8 @@
-package ie.app.ceolpad.view.lesson.ui.main;
+package ie.app.ceolpad.view.classinfo.ui.main;
 
-import android.content.Context;
-
-import androidx.annotation.Nullable;
-import androidx.annotation.StringRes;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentPagerAdapter;
-
-import java.util.ArrayList;
-import java.util.List;
-
-import ie.app.ceolpad.R;
 
 /**
  * A [FragmentPagerAdapter] that returns a fragment corresponding to

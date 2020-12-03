@@ -27,14 +27,14 @@ public class Config {
     public static final String COLUMN_LESSON_NOTES = "notes";
     public static final String COLUMN_FK_CLASS_ID = "class_id";
 
-    //column names of subject table
-    public static final String TABLE_SUBJECT = "subject";
-    public static final String COLUMN_SUBJECT_ID = "_id";
-    public static final String COLUMN_REGISTRATION_NUMBER = "fk_registration_no";
-    public static final String COLUMN_SUBJECT_NAME = "name";
-    public static final String COLUMN_SUBJECT_CODE = "subject_code";
-    public static final String COLUMN_SUBJECT_CREDIT = "credit";
-    public static final String STUDENT_SUB_CONSTRAINT = "student_sub_unique";
+    //column names of student table
+    public static final String TABLE_STUDENT = "student";
+    public static final String COLUMN_STUDENT_ID = "id";
+    public static final String COLUMN_STUDENT_FIRST_NAME = "first_name";
+    public static final String COLUMN_STUDENT_SURNAME = "surname";
+    public static final String COLUMN_STUDENT_INSTRUMENT = "instrument";
+    public static final String COLUMN_STUDENT_REGISTRATION_DATE = "registration_date";
+    public static final String COLUMN_STUDENT_EMAIL = "email";
 
     //others for general purpose key-value pair data
     public static final String TITLE = "title";
