@@ -19,7 +19,7 @@
         android:id="@+id/tvEmptyList"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="There are no students"
+        android:text="There are no students signed up to this class"
         android:visibility="gone"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"

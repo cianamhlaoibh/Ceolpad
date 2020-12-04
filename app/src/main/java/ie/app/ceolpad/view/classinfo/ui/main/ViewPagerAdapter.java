@@ -26,7 +26,7 @@ public class ViewPagerAdapter extends FragmentPagerAdapter {
         }
         else if (position == 1)
         {
-            fragment = new StudentFragment();
+            fragment = new StudentFragment(id);
         }
         return fragment;
     }

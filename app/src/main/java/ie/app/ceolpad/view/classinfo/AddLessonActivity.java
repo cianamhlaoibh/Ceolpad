@@ -32,7 +32,6 @@ import ie.app.ceolpad.utils.ImageFilePath;
 
 public class AddLessonActivity extends AppCompatActivity implements View.OnClickListener{
 
-    static final int CAPTURE_IMAGE_REQUEST = 1;
     EditText etDate, etNotes;
     Button btnAdd, btnCancel;
     ImageButton ibCamera;
@@ -51,7 +50,7 @@ public class AddLessonActivity extends AppCompatActivity implements View.OnClick
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_lesson);
-        Toolbar toolbar = findViewById(R.id.toolbar);
+        toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
         etDate = findViewById(R.id.etDate);
@@ -117,6 +116,7 @@ public class AddLessonActivity extends AppCompatActivity implements View.OnClick
 
                 break;
             case R.id.btnCancel:
+                finish();
                 break;
         }
     }

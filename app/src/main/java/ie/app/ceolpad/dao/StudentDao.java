@@ -24,7 +24,7 @@ public class StudentDao {
         this.context = context;
     }
 
-    public long insertStudent(Student student){
+    public long insertStudent(Student student, long fkClassId){
 
         long id = -1;
         DatabaseHelper databaseHelper = DatabaseHelper.getInstance(context);
@@ -36,6 +36,7 @@ public class StudentDao {
         contentValues.put(Config.COLUMN_STUDENT_INSTRUMENT, student.getInstrument());
         contentValues.put(Config.COLUMN_STUDENT_REGISTRATION_DATE, student.getRegisterDate());
         contentValues.put(Config.COLUMN_STUDENT_EMAIL, student.getEmail());
+        contentValues.put(Config.COLUMN_FK_CLASS_ID, fkClassId);
 
         try {
             id = sqLiteDatabase.insertOrThrow(Config.TABLE_STUDENT, null, contentValues);
@@ -58,7 +59,7 @@ public class StudentDao {
         try {
 
             cursor = sqLiteDatabase.query(Config.TABLE_STUDENT, null,
-                    Config.COLUMN_LESSON_ID + " = ? ",
+                    Config.COLUMN_FK_CLASS_ID + " = ? ",
                     new String[] {String.valueOf(fkClassId)},  null, null, null, null);
 
             /**
@@ -94,5 +95,24 @@ public class StudentDao {
         }
 
         return Collections.emptyList();
+    }
+
+    public long deleteStudent(long studentId) {
+        long deletedRowCount = -1;
+        DatabaseHelper databaseHelper = DatabaseHelper.getInstance(context);
+        SQLiteDatabase sqLiteDatabase = databaseHelper.getWritableDatabase();
+
+        try {
+            deletedRowCount = sqLiteDatabase.delete(Config.TABLE_STUDENT,
+                    Config.COLUMN_STUDENT_ID + " = ? ",
+                    new String[]{ String.valueOf(studentId)});
+        } catch (SQLiteException e){
+            Log.d("IS4447", "Exception: "+ e.getMessage());
+            Toast.makeText(context, e.getMessage(), Toast.LENGTH_LONG).show();
+        } finally {
+            sqLiteDatabase.close();
+        }
+
+        return deletedRowCount;
     }
 }

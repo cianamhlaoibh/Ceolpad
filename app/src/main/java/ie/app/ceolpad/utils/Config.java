@@ -47,4 +47,5 @@ public class Config {
     public static final String MUSIC_CLASS_ID = "music_class_id";
     public static final String MUSIC_CLASS_NAME = "className";
     public static final String LESSON_ID = "lessonID";
+    public static final String STUDENT_ID = "studentID";
 }

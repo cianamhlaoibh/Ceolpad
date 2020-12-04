@@ -99,6 +99,62 @@ public class MusicClassDao {
         return Collections.emptyList();
     }
 
+    public MusicClass[] getAllClassesArray(){
+
+        DatabaseHelper databaseHelper = DatabaseHelper.getInstance(context);
+        SQLiteDatabase sqLiteDatabase = databaseHelper.getReadableDatabase();
+
+        Cursor cursor = null;
+        try {
+
+            //cursor = sqLiteDatabase.query(Config.TABLE_MUSIC_CLASS, null, null, null, null, null, Config.COLUMN_CLASS_DAY, null);
+
+
+            // If you want to execute raw query then uncomment below 2 lines. And comment out above line.
+
+            String SELECT_QUERY = String.format("SELECT * FROM " + Config.TABLE_MUSIC_CLASS);
+            // + " ORDER BY CASE WHEN " + Config.COLUMN_CLASS_DAY + " = 'Monday' THEN 1 "
+            // + " WHEN " + Config.COLUMN_CLASS_DAY + " = 'Tuesday' THEN 2 "
+            //  + " WHEN " + Config.COLUMN_CLASS_DAY + " = 'Wednesday' THEN 3 "
+            //  + " WHEN " + Config.COLUMN_CLASS_DAY + " = 'Thursday' THEN 4 "
+            //  + " WHEN " + Config.COLUMN_CLASS_DAY + " = 'Friday' THEN 5 "
+            //  + " WHEN " + Config.COLUMN_CLASS_DAY + " = 'Saturday' THEN 6 "
+            //  + " WHEN " + Config.COLUMN_CLASS_DAY + " = 'Sunday' THEN 7 ENDS ASC
+
+            cursor = sqLiteDatabase.rawQuery(SELECT_QUERY, null);
+
+            int count = 0;
+            if(cursor!=null)
+                if(cursor.moveToFirst()){
+                    MusicClass[] musicClasses = new MusicClass[cursor.getCount()];
+                    do {
+                        int id = cursor.getInt(cursor.getColumnIndex(Config.COLUMN_CLASS_ID));
+                        String name = cursor.getString(cursor.getColumnIndex(Config.COLUMN_CLASS_NAME));
+                        String day = cursor.getString(cursor.getColumnIndex(Config.COLUMN_CLASS_DAY));
+                        String time = cursor.getString(cursor.getColumnIndex(Config.COLUMN_CLASS_TIME));
+
+                        musicClasses[count] = new MusicClass();
+                        musicClasses[count].setId(id);
+                        musicClasses[count].setClassName(name);
+                        musicClasses[count].setTime(time);
+                        musicClasses[count].setDay(day);
+
+                        count++;
+                    }   while (cursor.moveToNext());
+
+                    return musicClasses;
+                }
+        } catch (Exception e){
+            Log.d("IS4447", "Exception: "+ e.getMessage());
+            Toast.makeText(context, "Operation failed", Toast.LENGTH_SHORT).show();
+        } finally {
+            if(cursor!=null)
+                cursor.close();
+            sqLiteDatabase.close();
+        }
+        return null;
+    }
+
     public MusicClass getClassById(long idnum){
 
         DatabaseHelper databaseHelper = DatabaseHelper.getInstance(context);
