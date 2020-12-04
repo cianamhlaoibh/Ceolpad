@@ -42,7 +42,7 @@ public class AddLessonActivity extends AppCompatActivity implements View.OnClick
     private static final int PERMISSION_CODE = 1001;
 
     private long classId;
-    private String notes, mCurrentPhotoPath, stDate;
+    private String notes, mCurrentPhotoPath, stDate, uri;
     private Date date;
     private Uri selectedImageUri = null;
 
@@ -99,8 +99,8 @@ public class AddLessonActivity extends AppCompatActivity implements View.OnClick
             case R.id.btnAdd:
                 notes = etNotes.getText().toString();
                 stDate =  etDate.getText().toString();
-
-                Lesson lesson = new Lesson(-1, stDate, mCurrentPhotoPath, notes);
+                uri = selectedImageUri.toString();
+                Lesson lesson = new Lesson(-1, stDate, mCurrentPhotoPath, notes, uri);
 
                 LessonDao lessonDao = new LessonDao(getApplicationContext());
 

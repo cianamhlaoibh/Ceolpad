@@ -55,6 +55,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                 + Config.COLUMN_LESSON_DATE + " TEXT NOT NULL, "
                 + Config.COLUMN_LESSON_IMAGE + " TEXT, " //nullable
                 + Config.COLUMN_LESSON_NOTES + " TEXT NOT NULL,"
+                + Config.COLUMN_LESSON_URI + " TEXT,"
                 + Config.COLUMN_FK_CLASS_ID + " INTEGER, "
                 + "FOREIGN KEY (" + Config.COLUMN_FK_CLASS_ID + ") REFERENCES " + Config.TABLE_MUSIC_CLASS + "(" + Config.COLUMN_CLASS_ID + ") ON UPDATE CASCADE ON DELETE CASCADE" //deletes all lessons if parent music class is deleted
                 + ")";

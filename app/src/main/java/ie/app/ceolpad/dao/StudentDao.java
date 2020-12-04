@@ -13,6 +13,7 @@ import java.util.Collections;
 import java.util.List;
 
 import ie.app.ceolpad.database.DatabaseHelper;
+import ie.app.ceolpad.model.MusicClass;
 import ie.app.ceolpad.model.Student;
 import ie.app.ceolpad.utils.Config;
 
@@ -95,6 +96,50 @@ public class StudentDao {
         }
 
         return Collections.emptyList();
+    }
+
+    public String[] getAllStudentEmailsForClass(long fkClassId){
+
+        DatabaseHelper databaseHelper = DatabaseHelper.getInstance(context);
+        SQLiteDatabase sqLiteDatabase = databaseHelper.getReadableDatabase();
+
+        Cursor cursor = null;
+        try {
+
+            cursor = sqLiteDatabase.query(Config.TABLE_STUDENT,  new String[]  {Config.COLUMN_STUDENT_EMAIL},
+                    Config.COLUMN_FK_CLASS_ID + " = ? ",
+                    new String[] {String.valueOf(fkClassId)},  null, null, null, null);
+
+            /**
+             // If you want to execute raw query then uncomment below 2 lines. And comment out above line.
+
+             String SELECT_QUERY = String.format("SELECT %s, %s, %s, %s, %s FROM %s", Config.COLUMN_STUDENT_ID, Config.COLUMN_STUDENT_NAME, Config.COLUMN_STUDENT_REGISTRATION, Config.COLUMN_STUDENT_EMAIL, Config.COLUMN_STUDENT_PHONE, Config.TABLE_STUDENT);
+             cursor = sqLiteDatabase.rawQuery(SELECT_QUERY, null);
+             */
+
+            int count = 0;
+            if(cursor!=null)
+                if(cursor.moveToFirst()){
+                    String[] emails = new String[cursor.getCount()];
+                    do {
+                        String email = cursor.getString(cursor.getColumnIndex(Config.COLUMN_STUDENT_EMAIL));
+
+                        emails[count] = email;
+
+                        count++;
+                    }   while (cursor.moveToNext());
+
+                    return emails;
+                }
+        } catch (Exception e){
+            Log.d("IS4447", "Exception: "+ e.getMessage());
+            Toast.makeText(context, "Operation failed", Toast.LENGTH_SHORT).show();
+        } finally {
+            if(cursor!=null)
+                cursor.close();
+            sqLiteDatabase.close();
+        }
+        return null;
     }
 
     public long deleteStudent(long studentId) {

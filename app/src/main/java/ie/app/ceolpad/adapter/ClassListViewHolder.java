@@ -24,6 +24,6 @@ public class ClassListViewHolder extends RecyclerView.ViewHolder  {
         tvDay = itemView.findViewById(R.id.tvLesson);
         tvClassName = itemView.findViewById(R.id.tvDate);
         tvTime = itemView.findViewById(R.id.tvTime);
-        ibEdit = itemView.findViewById(R.id.ibEdit);
+        ibEdit = itemView.findViewById(R.id.ibShare);
     }
 }

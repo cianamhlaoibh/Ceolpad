@@ -1,6 +1,12 @@
 package ie.app.ceolpad.adapter;
 
 import android.content.Context;
+import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.net.Uri;
+import android.provider.MediaStore;
+import android.util.Base64;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -42,6 +48,15 @@ public class LessonListReyclerAdapter extends RecyclerView.Adapter<LessonListVie
             @Override
             public void onClick(View v) {
                 myOnClickListener.onClick(context, position);
+            }
+        });
+
+
+
+        holder.ibShare.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                myOnClickListener.onShare(context,position);
             }
         });
     }

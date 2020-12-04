@@ -2,11 +2,18 @@ package ie.app.ceolpad.view.classinfo.ui.main;
 
 import android.content.Context;
 import android.content.Intent;
+import android.database.Cursor;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
+import android.net.Uri;
 import android.os.Bundle;
+import android.provider.MediaStore;
+import android.util.Base64;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageButton;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -19,12 +26,17 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.android.material.snackbar.Snackbar;
 
+import java.io.File;
+import java.lang.reflect.Array;
 import java.util.ArrayList;
+import java.util.List;
 
 import ie.app.ceolpad.R;
 import ie.app.ceolpad.adapter.LessonListReyclerAdapter;
 import ie.app.ceolpad.dao.LessonDao;
+import ie.app.ceolpad.dao.StudentDao;
 import ie.app.ceolpad.model.Lesson;
+import ie.app.ceolpad.model.Student;
 import ie.app.ceolpad.utils.Config;
 import ie.app.ceolpad.view.RecyclerItemOnClickListener;
 import ie.app.ceolpad.view.classinfo.ViewEditLessonActivity;
@@ -57,6 +69,7 @@ public class LessonFragment extends Fragment implements RecyclerItemOnClickListe
 
         tvEmptyList = view.findViewById(R.id.tvEmptyList);
         recyclerView = (RecyclerView) view.findViewById(R.id.rvList);
+
 
         lessonDao = new LessonDao(getContext());
 
@@ -157,5 +170,25 @@ public class LessonFragment extends Fragment implements RecyclerItemOnClickListe
         Intent intent = new Intent(getContext(), ViewEditLessonActivity.class);
         intent.putExtra(Config.LESSON_ID, id);
         startActivity(intent);
+    }
+
+    @Override
+    public void onShare(Context contx, int position) {
+
+        //https://stackoverflow.com/questions/28741029/how-to-share-both-text-and-image-in-the-share-intent-email-and-gmail
+
+        Lesson lesson = lessonList.get(position);
+
+        StudentDao studentDao = new StudentDao(context);
+        String[] studentEmails = studentDao.getAllStudentEmailsForClass(classId);
+        Uri imageUri = Uri.parse(lesson.getImageUri());
+
+        Intent emailIntent = new Intent(android.content.Intent.ACTION_SEND);
+        emailIntent.setType("image/jpeg");
+        emailIntent.putExtra(android.content.Intent.EXTRA_EMAIL, studentEmails);
+        emailIntent.putExtra(android.content.Intent.EXTRA_SUBJECT, "Lesson - " + lesson.getLessonDate());
+        emailIntent.putExtra(android.content.Intent.EXTRA_TEXT, lesson.getNotes());
+        emailIntent.putExtra(Intent.EXTRA_STREAM, imageUri);
+        startActivity(Intent.createChooser(emailIntent, "Sharing this lesson Options"));
     }
 }

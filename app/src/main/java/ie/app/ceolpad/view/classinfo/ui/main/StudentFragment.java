@@ -166,5 +166,10 @@ public class StudentFragment extends Fragment implements RecyclerItemOnClickList
         intent.putExtra(Config.STUDENT_ID, id);
         startActivity(intent);
     }
+
+    @Override
+    public void onShare(Context contx, int position) {
+
+    }
 }
 

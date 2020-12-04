@@ -35,7 +35,7 @@ public class LessonDao {
         Cursor cursor = null;
         try{
             cursor = sqLiteDatabase.query(Config.TABLE_LESSON,
-                    new String[] {Config.COLUMN_LESSON_ID, Config.COLUMN_LESSON_DATE, Config.COLUMN_LESSON_IMAGE, Config.COLUMN_LESSON_NOTES},
+                    new String[] {Config.COLUMN_LESSON_ID, Config.COLUMN_LESSON_DATE, Config.COLUMN_LESSON_IMAGE, Config.COLUMN_LESSON_NOTES, Config.COLUMN_LESSON_URI},
                     Config.COLUMN_FK_CLASS_ID + " = ? ",
                     new String[] {String.valueOf(fkClassId)},
                     null, null, null);
@@ -49,8 +49,9 @@ public class LessonDao {
                     //https://beginnersbook.com/2013/04/java-string-to-date-conversion/
                     String image = cursor.getString(cursor.getColumnIndex(Config.COLUMN_LESSON_IMAGE));
                     String notes = cursor.getString(cursor.getColumnIndex(Config.COLUMN_LESSON_NOTES));
+                    String imageUri = cursor.getString(cursor.getColumnIndex(Config.COLUMN_LESSON_URI));
 
-                    lessonList.add(new Lesson(id, date, image, notes));
+                    lessonList.add(new Lesson(id, date, image, notes, imageUri));
                 } while (cursor.moveToNext());
             }
         } catch (SQLiteException e){
@@ -72,7 +73,7 @@ public class LessonDao {
         Cursor cursor = null;
         try{
             cursor = sqLiteDatabase.query(Config.TABLE_LESSON,
-                    new String[] {Config.COLUMN_LESSON_ID, Config.COLUMN_LESSON_DATE, Config.COLUMN_LESSON_IMAGE, Config.COLUMN_LESSON_NOTES},
+                    new String[] {Config.COLUMN_LESSON_ID, Config.COLUMN_LESSON_DATE, Config.COLUMN_LESSON_IMAGE, Config.COLUMN_LESSON_NOTES, Config.COLUMN_LESSON_URI},
                     Config.COLUMN_LESSON_ID + " = ? ",
                     new String[] {String.valueOf(idnum)},
                     null, null, null);
@@ -85,8 +86,9 @@ public class LessonDao {
                     //https://beginnersbook.com/2013/04/java-string-to-date-conversion/
                     String image = cursor.getString(cursor.getColumnIndex(Config.COLUMN_LESSON_IMAGE));
                     String notes = cursor.getString(cursor.getColumnIndex(Config.COLUMN_LESSON_NOTES));
+                    String imageUri = cursor.getString(cursor.getColumnIndex(Config.COLUMN_LESSON_URI));
 
-                    lesson = new Lesson(id, date, image, notes);
+                    lesson = new Lesson(id, date, image, notes, imageUri);
                 } while (cursor.moveToNext());
             }
         } catch (SQLiteException e){
@@ -110,6 +112,7 @@ public class LessonDao {
         contentValues.put(Config.COLUMN_LESSON_DATE, lesson.getLessonDate());
         contentValues.put(Config.COLUMN_LESSON_IMAGE, lesson.getimagePath());
         contentValues.put(Config.COLUMN_LESSON_NOTES, lesson.getNotes());
+        contentValues.put(Config.COLUMN_LESSON_URI, lesson.getImageUri());
         contentValues.put(Config.COLUMN_FK_CLASS_ID, fkClassId);
 
         try {

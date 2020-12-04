@@ -25,6 +25,7 @@ public class Config {
     public static final String COLUMN_LESSON_DATE = "date";
     public static final String COLUMN_LESSON_IMAGE = "image";
     public static final String COLUMN_LESSON_NOTES = "notes";
+    public static final String COLUMN_LESSON_URI = "uri";
     public static final String COLUMN_FK_CLASS_ID = "class_id";
 
     //column names of student table

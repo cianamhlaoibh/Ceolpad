@@ -20,7 +20,7 @@ public class StudentListViewHolder extends RecyclerView.ViewHolder {
         tvEmail = itemView.findViewById(R.id.tvEmail);
         tvRegisterDate = itemView.findViewById(R.id.tvRegisterDate);
         tvInstrument = itemView.findViewById(R.id.tvInstrument);
-        ibEdit = itemView.findViewById(R.id.ibEdit);
+        ibEdit = itemView.findViewById(R.id.ibShare);
 
     }
 }
