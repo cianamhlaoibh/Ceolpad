@@ -1,6 +1,7 @@
 package ie.app.ceolpad.view.classinfo;
 
 import android.Manifest;
+import android.app.DatePickerDialog;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
@@ -8,9 +9,11 @@ import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
+import android.text.InputType;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
@@ -22,6 +25,7 @@ import androidx.appcompat.widget.Toolbar;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.Calendar;
 import java.util.Date;
 
 import ie.app.ceolpad.R;
@@ -37,6 +41,7 @@ public class AddLessonActivity extends AppCompatActivity implements View.OnClick
     ImageButton ibCamera;
     ImageView ivTune;
     Toolbar toolbar;
+    DatePickerDialog picker;
 
     private static final int IMAGE_PICK_CODE = 1000;
     private static final int PERMISSION_CODE = 1001;
@@ -70,6 +75,30 @@ public class AddLessonActivity extends AppCompatActivity implements View.OnClick
         classId = getIntent().getLongExtra(Config.MUSIC_CLASS_ID, -1);
         final String className = getIntent().getStringExtra(Config.MUSIC_CLASS_NAME);
         toolbar.setTitle(className + " Class - Add Lesson");
+
+        //https://www.tutlane.com/tutorial/android/android-datepicker-with-examples
+        etDate.setInputType(InputType.TYPE_NULL);
+        etDate.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                final Calendar cldr = Calendar.getInstance();
+                int day = cldr.get(Calendar.DAY_OF_MONTH);
+                int month = cldr.get(Calendar.MONTH);
+                int year = cldr.get(Calendar.YEAR);
+                // date picker dialog
+                picker = new DatePickerDialog(AddLessonActivity.this,
+                        new DatePickerDialog.OnDateSetListener() {
+                            @Override
+                            public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
+                                etDate.setText(dayOfMonth + "/" + (monthOfYear + 1) + "/" + year);
+                            }
+                        }, year, month, day);
+                //Restricts user to enter a date that is not in the future
+                //https://stackoverflow.com/questions/20970963/how-to-disable-future-dates-in-android-date-picker
+                picker.getDatePicker().setMaxDate(System.currentTimeMillis());
+                picker.show();
+            }
+        });
     }
 
     @Override

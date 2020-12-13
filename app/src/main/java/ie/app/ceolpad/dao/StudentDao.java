@@ -51,6 +51,41 @@ public class StudentDao {
         return id;
     }
 
+    public Student getStudentById(long idnum){
+
+        DatabaseHelper databaseHelper = DatabaseHelper.getInstance(context);
+        SQLiteDatabase sqLiteDatabase = databaseHelper.getReadableDatabase();
+
+        Cursor cursor = null;
+        Student student = null;
+        try {
+
+            cursor = sqLiteDatabase.query(Config.TABLE_STUDENT, null,
+                    Config.COLUMN_STUDENT_ID + " = ? ", new String[]{String.valueOf(idnum)},
+                    null, null, null);
+
+            if(cursor.moveToFirst()){
+                int id = cursor.getInt(cursor.getColumnIndex(Config.COLUMN_STUDENT_ID));
+                String firstName = cursor.getString(cursor.getColumnIndex(Config.COLUMN_STUDENT_FIRST_NAME));
+                String surame = cursor.getString(cursor.getColumnIndex(Config.COLUMN_STUDENT_SURNAME));
+                String email = cursor.getString(cursor.getColumnIndex(Config.COLUMN_STUDENT_EMAIL));
+                String instrument = cursor.getString(cursor.getColumnIndex(Config.COLUMN_STUDENT_INSTRUMENT));
+                String regDate = cursor.getString(cursor.getColumnIndex(Config.COLUMN_STUDENT_REGISTRATION_DATE));
+
+                student = new Student(id, firstName, surame, regDate, instrument, email);
+            }
+        } catch (Exception e){
+            Log.d("IS4447", "Exception: "+ e.getMessage());
+            Toast.makeText(context, "Operation failed", Toast.LENGTH_SHORT).show();
+        } finally {
+            if(cursor!=null)
+                cursor.close();
+            sqLiteDatabase.close();
+        }
+
+        return student;
+    }
+
     public List<Student> getAllStudentByClass(long fkClassId){
 
         DatabaseHelper databaseHelper = DatabaseHelper.getInstance(context);
@@ -140,6 +175,32 @@ public class StudentDao {
             sqLiteDatabase.close();
         }
         return null;
+    }
+
+    public long updateStudent(Student student, long fkClassId){
+
+        long rowCount = 0;
+        DatabaseHelper databaseHelper = DatabaseHelper.getInstance(context);
+        SQLiteDatabase sqLiteDatabase = databaseHelper.getWritableDatabase();
+
+        ContentValues contentValues = new ContentValues();
+        contentValues.put(Config.COLUMN_STUDENT_FIRST_NAME, student.getFirstName());
+        contentValues.put(Config.COLUMN_STUDENT_SURNAME, student.getSurname());
+        contentValues.put(Config.COLUMN_STUDENT_INSTRUMENT, student.getInstrument());
+        contentValues.put(Config.COLUMN_STUDENT_EMAIL, student.getEmail());
+        contentValues.put(Config.COLUMN_FK_CLASS_ID, fkClassId);
+
+        try {
+            rowCount = sqLiteDatabase.update(Config.TABLE_STUDENT, contentValues,
+                    Config.COLUMN_STUDENT_ID + " = ? ",
+                    new String[] {String.valueOf(student.getId())});
+        } catch (SQLiteException e){
+            Log.d("IS4447", "Exception: "+ e.getMessage());
+            Toast.makeText(context, e.getMessage(), Toast.LENGTH_LONG).show();
+        } finally {
+            sqLiteDatabase.close();
+        }
+        return rowCount;
     }
 
     public long deleteStudent(long studentId) {

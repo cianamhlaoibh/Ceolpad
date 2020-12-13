@@ -43,15 +43,12 @@ public class LessonListReyclerAdapter extends RecyclerView.Adapter<LessonListVie
 
         holder.tvDate.setText(lesson.getLessonDate().toString());
 
-
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 myOnClickListener.onClick(context, position);
             }
         });
-
-
 
         holder.ibShare.setOnClickListener(new View.OnClickListener() {
             @Override

@@ -1,10 +1,12 @@
 package ie.app.ceolpad.view.classinfo;
 
 import android.app.DatePickerDialog;
+import android.content.Intent;
 import android.os.Bundle;
 import android.text.InputType;
 import android.view.View;
 import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
@@ -23,29 +25,32 @@ import ie.app.ceolpad.dao.StudentDao;
 import ie.app.ceolpad.model.MusicClass;
 import ie.app.ceolpad.model.Student;
 import ie.app.ceolpad.utils.Config;
+import ie.app.ceolpad.view.musicclass.UpdateStudentListener;
 
-public class AddStudentActivity extends AppCompatActivity implements View.OnClickListener{
+public class UpdateStudentActivity extends AppCompatActivity implements View.OnClickListener {
 
     EditText etFirstName, etSurname, etRegDate, etEmail;
     Spinner spInstrument, spClass;
-    Button btnAdd, btnCancel;
+    Button btnUpdate, btnCancel;
     Toolbar toolbar;
     DatePickerDialog picker;
 
 
-    private long classId;
+    private long classId, studentId;
     private String firstName, surname, regDate, instrument, email;
     private MusicClass selectedClass;
+    private Student student;
 
     private MusicClass[] musicClasses;
     private StudentDao studentDao;
+
     private MusicClassDao musicClassDao;
     private CustomSpinnerAdapter customSpinnerAdapter;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_add_student);
+        setContentView(R.layout.activity_update_student);
 
         etFirstName = findViewById(R.id.etFirstName);
         etSurname = findViewById(R.id.etSurname);
@@ -53,18 +58,17 @@ public class AddStudentActivity extends AppCompatActivity implements View.OnClic
         etEmail = findViewById(R.id.etEmail);
         spInstrument = findViewById(R.id.spInstrument);
         spClass = findViewById(R.id.spClass);
-        btnAdd = findViewById(R.id.btnAdd);
+        btnUpdate = findViewById(R.id.btnUpdate);
         btnCancel = findViewById(R.id.btnCancel);
         toolbar = findViewById(R.id.toolbar);
 
-        btnAdd.setOnClickListener(this);
+        btnUpdate.setOnClickListener(this);
         btnCancel.setOnClickListener(this);
 
-        classId = getIntent().getLongExtra(Config.MUSIC_CLASS_ID, -1);
-        final String className = getIntent().getStringExtra(Config.MUSIC_CLASS_NAME);
-        toolbar.setTitle(className + " Class - Add Student");
-
+        studentId = getIntent().getLongExtra(Config.STUDENT_ID, -1);
         studentDao = new StudentDao(this);
+        student = studentDao.getStudentById(studentId);
+        initUIFromPerson();
 
         musicClassDao = new MusicClassDao(this);
         musicClasses = musicClassDao.getAllClassesArray();
@@ -73,14 +77,14 @@ public class AddStudentActivity extends AppCompatActivity implements View.OnClic
         // Initialize the adapter sending the current context
         // Send the simple_spinner_item layout
         // And finally send the Users array (Your data)
-        customSpinnerAdapter = new CustomSpinnerAdapter(AddStudentActivity.this,
+        customSpinnerAdapter = new CustomSpinnerAdapter(UpdateStudentActivity.this,
                 android.R.layout.simple_spinner_dropdown_item,
                 musicClasses);
         spClass.setAdapter(customSpinnerAdapter); // Set the custom adapter to the spinner
         // You can create an anonymous listener to handle the event when is selected an spinner item
 
-        for(int i = 0; i < musicClasses.length; i++){
-            if(musicClasses[i].getId() == classId){
+        for (int i = 0; i < musicClasses.length; i++) {
+            if (musicClasses[i].getId() == classId) {
                 spClass.setSelection(i);
             }
         }
@@ -88,44 +92,37 @@ public class AddStudentActivity extends AppCompatActivity implements View.OnClic
         spClass.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
 
             @Override
-            public void onItemSelected(AdapterView<?> adapterView, View view,
-                                       int position, long id) {
+            public void onItemSelected(AdapterView<?> adapterView, View view, int position, long id) {
                 // Here you get the current item (a User object) that is selected by its position
                 selectedClass = customSpinnerAdapter.getItem(position);
             }
-            @Override
-            public void onNothingSelected(AdapterView<?> adapter) {  }
-        });
 
-        //https://www.tutlane.com/tutorial/android/android-datepicker-with-examples
-        etRegDate.setInputType(InputType.TYPE_NULL);
-        etRegDate.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View v) {
-                final Calendar cldr = Calendar.getInstance();
-                int day = cldr.get(Calendar.DAY_OF_MONTH);
-                int month = cldr.get(Calendar.MONTH);
-                int year = cldr.get(Calendar.YEAR);
-                // date picker dialog
-                picker = new DatePickerDialog(AddStudentActivity.this,
-                        new DatePickerDialog.OnDateSetListener() {
-                            @Override
-                            public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
-                                etRegDate.setText(dayOfMonth + "/" + (monthOfYear + 1) + "/" + year);
-                            }
-                        }, year, month, day);
-                //Restricts user to enter a date that is not in the future
-                //https://stackoverflow.com/questions/20970963/how-to-disable-future-dates-in-android-date-picker
-                picker.getDatePicker().setMaxDate(System.currentTimeMillis());
-                picker.show();
+            public void onNothingSelected(AdapterView<?> adapter) {
             }
         });
     }
 
+    private void initUIFromPerson() {
+        etFirstName.setText(student.getFirstName());
+        etSurname.setText(student.getSurname());
+        etRegDate.setText(student.getRegisterDate());
+        etEmail.setText(student.getEmail());
+        String compareValue = String.valueOf(student.getInstrument());
+        ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(getApplicationContext(), R.array.Instrument, android.R.layout.simple_spinner_item);
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        spInstrument.setAdapter(adapter);
+        if (compareValue != null) {
+            int spinnerPosition = adapter.getPosition(compareValue);
+            spInstrument.setSelection(spinnerPosition);
+        }
+    }
+
+
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
-            case R.id.btnAdd:
+            case R.id.btnUpdate:
                 firstName = etFirstName.getText().toString();
                 surname = etSurname.getText().toString();
                 regDate = etRegDate.getText().toString();
@@ -133,9 +130,17 @@ public class AddStudentActivity extends AppCompatActivity implements View.OnClic
                 email = etEmail.getText().toString();
                 classId = selectedClass.getId();
 
-                Student newStudent = new Student(-1, firstName, surname, regDate, instrument, email);
+                student.setFirstName(firstName);
+                student.setSurname(surname);
+                student.setRegisterDate(regDate);
+                student.setInstrument(instrument);
+                student.setEmail(email);
 
-                long id = studentDao.insertStudent(newStudent, classId);
+                long id = studentDao.updateStudent(student, classId);
+
+                if(id>0){
+                    finish();
+                }
 
                 finish();
                 break;
@@ -145,3 +150,5 @@ public class AddStudentActivity extends AppCompatActivity implements View.OnClic
         }
     }
 }
+
+

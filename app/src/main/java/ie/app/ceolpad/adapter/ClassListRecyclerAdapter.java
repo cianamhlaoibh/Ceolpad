@@ -15,7 +15,7 @@ import ie.app.ceolpad.R;
 import ie.app.ceolpad.dao.MusicClassDao;
 import ie.app.ceolpad.model.MusicClass;
 import ie.app.ceolpad.utils.Config;
-import ie.app.ceolpad.view.UpdateListener;
+import ie.app.ceolpad.view.UpdateMusicClassListener;
 import ie.app.ceolpad.view.classinfo.ClassInfoActivity;
 import ie.app.ceolpad.view.musicclass.MusicClassListActivity;
 import ie.app.ceolpad.view.musicclass.MusicClassUpdateFragment;
@@ -52,7 +52,7 @@ public class ClassListRecyclerAdapter extends RecyclerView.Adapter<ClassListView
         holder.ibEdit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                MusicClassUpdateFragment musicClassUpdateFragment = MusicClassUpdateFragment.newInstance(musicClass.getId(), itemPosition, new UpdateListener() {
+                MusicClassUpdateFragment musicClassUpdateFragment = MusicClassUpdateFragment.newInstance(musicClass.getId(), itemPosition, new UpdateMusicClassListener() {
                     @Override
                     public void onMusicClassUpdated(MusicClass musicClass, int position) {
                         classList.set(position, musicClass);

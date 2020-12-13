@@ -1,6 +1,13 @@
 package ie.app.ceolpad.model;
-
 import java.util.Date;
+
+/**
+ * Reference
+ *  -
+ *  - Created by Michael Gleeson on 03/12/2020
+ *
+ */
+
 
 public class Student {
 
@@ -70,4 +77,5 @@ public class Student {
     public void setEmail(String email) {
         this.email = email;
     }
+
 }

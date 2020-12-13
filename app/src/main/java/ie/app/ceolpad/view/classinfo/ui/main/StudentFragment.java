@@ -3,6 +3,7 @@ package ie.app.ceolpad.view.classinfo.ui.main;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Canvas;
+import android.net.Uri;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -22,19 +23,18 @@ import com.google.android.material.snackbar.Snackbar;
 import java.util.ArrayList;
 
 import ie.app.ceolpad.R;
-import ie.app.ceolpad.adapter.LessonListReyclerAdapter;
 import ie.app.ceolpad.adapter.StudentListRecyclerAdapter;
-import ie.app.ceolpad.dao.LessonDao;
 import ie.app.ceolpad.dao.StudentDao;
 import ie.app.ceolpad.model.Lesson;
 import ie.app.ceolpad.model.Student;
 import ie.app.ceolpad.utils.Config;
 import ie.app.ceolpad.view.RecyclerItemOnClickListener;
 import ie.app.ceolpad.view.classinfo.AddStudentActivity;
-import ie.app.ceolpad.view.classinfo.ViewEditLessonActivity;
+import ie.app.ceolpad.view.classinfo.UpdateStudentActivity;
+import ie.app.ceolpad.view.musicclass.UpdateStudentListener;
 import it.xabaras.android.recyclerview.swipedecorator.RecyclerViewSwipeDecorator;
 
-public class StudentFragment extends Fragment implements RecyclerItemOnClickListener {
+public class StudentFragment extends Fragment implements UpdateStudentListener {
     View v;
 
     public static RecyclerView recyclerView;
@@ -160,16 +160,17 @@ public class StudentFragment extends Fragment implements RecyclerItemOnClickList
     }
 
     @Override
-    public void onClick(Context contx, int position) {
-        long id = studentList.get(position).getId();
-        Intent intent = new Intent(getContext(), AddStudentActivity.class);
-        intent.putExtra(Config.STUDENT_ID, id);
+    public void updateStudent(long studentId) {
+        Intent intent = new Intent(getContext(), UpdateStudentActivity.class);
+        intent.putExtra(Config.STUDENT_ID, studentId);
         startActivity(intent);
     }
 
-    @Override
-    public void onShare(Context contx, int position) {
+    /**
+     * Created by Michael Gleeson on 03/12/2020
+     * Copyright (c) 2020
+     */
 
     }
-}
+
 

@@ -15,13 +15,13 @@ import ie.app.ceolpad.R;
 import ie.app.ceolpad.dao.MusicClassDao;
 import ie.app.ceolpad.model.MusicClass;
 import ie.app.ceolpad.utils.Config;
-import ie.app.ceolpad.view.UpdateListener;
+import ie.app.ceolpad.view.UpdateMusicClassListener;
 
 public class MusicClassUpdateFragment extends DialogFragment {
 
     private static long id;
     private static int musicClassItemPosition;
-    private static UpdateListener updateListener;
+    private static UpdateMusicClassListener updateListener;
 
     private MusicClass musicClass;
     private MusicClassDao musicClassDao;
@@ -42,7 +42,7 @@ public class MusicClassUpdateFragment extends DialogFragment {
 
     }
 
-    public static MusicClassUpdateFragment newInstance(long idnum, int position, UpdateListener listener){
+    public static MusicClassUpdateFragment newInstance(long idnum, int position, UpdateMusicClassListener listener){
         id = idnum;
         musicClassItemPosition = position;
         updateListener = listener;
