@@ -27,11 +27,9 @@ import java.util.List;
 import ie.app.ceolpad.R;
 import ie.app.ceolpad.adapter.ClassListRecyclerAdapter;
 import ie.app.ceolpad.dao.MusicClassDao;
-import ie.app.ceolpad.model.Lesson;
 import ie.app.ceolpad.model.MusicClass;
-import ie.app.ceolpad.model.Student;
 import ie.app.ceolpad.utils.Config;
-import ie.app.ceolpad.view.CreateListener;
+import ie.app.ceolpad.view.CreateClassListener;
 import it.xabaras.android.recyclerview.swipedecorator.RecyclerViewSwipeDecorator;
 /*
  *   References
@@ -42,10 +40,8 @@ import it.xabaras.android.recyclerview.swipedecorator.RecyclerViewSwipeDecorator
  *    - Created By yoursTRULY
  *
  */
-public class MusicClassListActivity extends AppCompatActivity implements CreateListener {
-
+public class MusicClassListActivity extends AppCompatActivity implements CreateClassListener {
     private MusicClassDao musicClassDao = new MusicClassDao(this);
-
     private List<MusicClass> classList = new ArrayList<>();
 
     private TextView tvEmptyList;
@@ -187,15 +183,5 @@ public class MusicClassListActivity extends AppCompatActivity implements CreateL
         classList.add(musicClass);
         classListRecyclerAdapter.notifyDataSetChanged();
         viewVisibility();
-    }
-
-    @Override
-    public void onCreated(Lesson lesson) {
-
-    }
-
-    @Override
-    public void onCreated(Student student) {
-
     }
 }

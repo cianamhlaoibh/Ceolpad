@@ -10,7 +10,13 @@ public class Lesson {
 
     public Lesson(){}
 
-    public Lesson(long id,String date, String image, String notes,String imageUri) {
+    public Lesson(long lessonId, String lessonDate, String notes) {
+        this.lessonId = lessonId;
+        this.lessonDate = lessonDate;
+        this.notes = notes;
+    }
+
+    public Lesson(long id, String date, String image, String notes, String imageUri) {
         this.lessonId = id;
         this.lessonDate = date;
         this.imagePath = image;

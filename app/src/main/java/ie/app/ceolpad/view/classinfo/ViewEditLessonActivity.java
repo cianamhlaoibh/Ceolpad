@@ -1,7 +1,10 @@
 package ie.app.ceolpad.view.classinfo;
 
+import android.content.Intent;
 import android.graphics.BitmapFactory;
 import android.os.Bundle;
+import android.text.InputType;
+import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageView;
 
@@ -16,10 +19,10 @@ import ie.app.ceolpad.dao.LessonDao;
 import ie.app.ceolpad.model.Lesson;
 import ie.app.ceolpad.utils.Config;
 
-public class ViewEditLessonActivity extends AppCompatActivity {
+public class ViewEditLessonActivity extends AppCompatActivity implements View.OnClickListener {
 
     private Toolbar toolbar;
-    private ImageView ivTune;
+    private ImageView ivTune, ivDone;
     private EditText etNote;
 
     private LessonDao lessonDao;
@@ -29,7 +32,6 @@ public class ViewEditLessonActivity extends AppCompatActivity {
     Long lessonId;
     Date date;
 
-
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -37,10 +39,12 @@ public class ViewEditLessonActivity extends AppCompatActivity {
 
         toolbar = findViewById(R.id.toolbar);
         ivTune = findViewById(R.id.ivTune);
+        ivDone = findViewById(R.id.ivDone);
         etNote = findViewById(R.id.etNote);
 
-        lessonDao = new LessonDao(getApplicationContext());
+        ivDone.setOnClickListener(this);
 
+        lessonDao = new LessonDao(getApplicationContext());
         lessonId = getIntent().getLongExtra(Config.LESSON_ID, -1);
         lesson = lessonDao.getSingleLessonById(lessonId);
 
@@ -51,6 +55,7 @@ public class ViewEditLessonActivity extends AppCompatActivity {
 
             toolbar.setTitle("Lesson - " + lesson.getLessonDate());
             etNote.setText(notes);
+
             //https://alvinalexander.com/source-code/android/android-how-load-image-file-and-set-imageview/
             ivTune.setImageBitmap(BitmapFactory.decodeFile(imagePath));
         }
@@ -59,7 +64,20 @@ public class ViewEditLessonActivity extends AppCompatActivity {
     @Override
     protected void onStop() {
         super.onStop();
-        updatedNote = etNote.getText().toString();
-        lessonDao.updateLesson(lessonId, updatedNote);
+        //updatedNote = etNote.getText().toString();
+       // lessonDao.updateLesson(lessonId, updatedNote);
+    }
+
+    @Override
+    public void onClick(View v) {
+        if(v.getId() == R.id.ivDone) {
+                updatedNote = etNote.getText().toString();
+                lessonDao.updateLesson(lessonId, updatedNote);
+                finish();
+          //  Intent intent = new Intent(ViewEditLessonActivity.this, ClassInfoActivity.class);
+          //  intent.putExtra(Config.MUSIC_CLASS_ID, lesson.);
+         //   intent.putExtra(Config.MUSIC_CLASS_NAME, musicClass.getClassName());
+          //  context.startActivity(intent);
+        }
     }
 }

@@ -42,7 +42,7 @@ public class LessonListReyclerAdapter extends RecyclerView.Adapter<LessonListVie
         final Lesson lesson = lessonList.get(position);
 
         holder.tvDate.setText(lesson.getLessonDate().toString());
-
+        holder.tvPreview.setText(lesson.getNotes());
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -57,8 +57,6 @@ public class LessonListReyclerAdapter extends RecyclerView.Adapter<LessonListVie
             }
         });
     }
-
-
 
     @Override
     public int getItemCount() {

@@ -14,20 +14,17 @@ import java.util.List;
 
 import ie.app.ceolpad.R;
 import ie.app.ceolpad.model.Student;
-import ie.app.ceolpad.view.RecyclerItemOnClickListener;
 import ie.app.ceolpad.view.musicclass.UpdateStudentListener;
 
 public class StudentListRecyclerAdapter extends RecyclerView.Adapter<StudentListViewHolder> {
 
     private Context context;
     private List<Student> studentList;
-    private RecyclerItemOnClickListener myOnClickListener;
     private UpdateStudentListener updateStudentListener;
 
     public StudentListRecyclerAdapter(Context context, List<Student> StudentList, UpdateStudentListener updateStudentListener) {
         this.context = context;
         this.studentList = StudentList;
-       // this.myOnClickListener = myOnClickListener;
         this.updateStudentListener = updateStudentListener;
     }
 

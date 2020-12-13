@@ -166,10 +166,6 @@ public class StudentFragment extends Fragment implements UpdateStudentListener {
         startActivity(intent);
     }
 
-    /**
-     * Created by Michael Gleeson on 03/12/2020
-     * Copyright (c) 2020
-     */
 
     }
 

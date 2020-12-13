@@ -33,4 +33,5 @@
     <string name="title_activity_lesson">LessonActivity</string>
     <string name="tab_text_1">Lessons</string>
     <string name="tab_text_2">Students</string>
+    <string name="all_students">All Students</string>
 </resources>

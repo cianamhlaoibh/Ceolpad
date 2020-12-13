@@ -23,6 +23,8 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
+import com.google.android.material.textfield.TextInputLayout;
+
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.Calendar;
@@ -34,7 +36,7 @@ import ie.app.ceolpad.model.Lesson;
 import ie.app.ceolpad.utils.Config;
 import ie.app.ceolpad.utils.ImageFilePath;
 
-public class AddLessonActivity extends AppCompatActivity implements View.OnClickListener{
+public class AddLessonActivity extends AppCompatActivity implements View.OnClickListener {
 
     EditText etDate, etNotes;
     Button btnAdd, btnCancel;
@@ -42,6 +44,7 @@ public class AddLessonActivity extends AppCompatActivity implements View.OnClick
     ImageView ivTune;
     Toolbar toolbar;
     DatePickerDialog picker;
+    TextInputLayout tilDate, tilNotes;
 
     private static final int IMAGE_PICK_CODE = 1000;
     private static final int PERMISSION_CODE = 1001;
@@ -59,7 +62,9 @@ public class AddLessonActivity extends AppCompatActivity implements View.OnClick
         setSupportActionBar(toolbar);
 
         etDate = findViewById(R.id.etDate);
+        tilDate = findViewById(R.id.tilDate);
         etNotes = findViewById(R.id.etNotes);
+        tilNotes = findViewById(R.id.tilNotes);
         ivTune = findViewById(R.id.ivTune);
         ibCamera = findViewById(R.id.ibCamera);
         btnAdd = findViewById(R.id.btnAdd);
@@ -77,7 +82,7 @@ public class AddLessonActivity extends AppCompatActivity implements View.OnClick
         toolbar.setTitle(className + " Class - Add Lesson");
 
         //https://www.tutlane.com/tutorial/android/android-datepicker-with-examples
-        etDate.setInputType(InputType.TYPE_NULL);
+
         etDate.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -106,41 +111,45 @@ public class AddLessonActivity extends AppCompatActivity implements View.OnClick
         switch (v.getId()) {
             case R.id.ibCamera:
                 //check runtime permission
-                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M){
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
                     if (checkSelfPermission(Manifest.permission.READ_EXTERNAL_STORAGE)
-                            == PackageManager.PERMISSION_DENIED){
+                            == PackageManager.PERMISSION_DENIED) {
                         //permission not granted, request it.
                         String[] permissions = {Manifest.permission.READ_EXTERNAL_STORAGE};
                         //show popup for runtime permission
                         requestPermissions(permissions, PERMISSION_CODE);
-                    }
-                    else {
+                    } else {
                         //permission already granted
                         pickImageFromGallery();
                     }
-                }
-                else {
+                } else {
                     //system os is less then marshmallow
                     pickImageFromGallery();
                 }
                 break;
 
             case R.id.btnAdd:
-                notes = etNotes.getText().toString();
-                stDate =  etDate.getText().toString();
-                uri = selectedImageUri.toString();
-                Lesson lesson = new Lesson(-1, stDate, mCurrentPhotoPath, notes, uri);
+
+                if(!validateDate() | !validateNote()){
+                    return;
+                }
+
+                Lesson lesson;
+                if(selectedImageUri != null) {
+                    uri = selectedImageUri.toString();
+                    lesson = new Lesson(-1, stDate, mCurrentPhotoPath, notes, uri);
+                }else{
+                    lesson = new Lesson(-1, stDate, notes);
+                }
 
                 LessonDao lessonDao = new LessonDao(getApplicationContext());
 
                 long id = lessonDao.insertLesson(lesson, classId);
 
-                if(id>0) {
+                if (id > 0) {
                     lesson.setLessonId(id);
                 }
-
                 //LessonFragment.recyclerView.getAdapter().notifyDataSetChanged();
-
                 finish();
 
                 break;
@@ -162,7 +171,7 @@ public class AddLessonActivity extends AppCompatActivity implements View.OnClick
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
 
-        if (resultCode == RESULT_OK && requestCode == IMAGE_PICK_CODE){
+        if (resultCode == RESULT_OK && requestCode == IMAGE_PICK_CODE) {
             //set image to image view
             selectedImageUri = data.getData();
             mCurrentPhotoPath = ImageFilePath.getPath(getApplicationContext(), selectedImageUri);
@@ -171,35 +180,68 @@ public class AddLessonActivity extends AppCompatActivity implements View.OnClick
                 InputStream imageStream = getContentResolver().openInputStream(selectedImageUri);
                 Bitmap yourSelectedImage = BitmapFactory.decodeStream(imageStream);
                 imageStream.close();
-               ivTune.setImageBitmap(yourSelectedImage);
-            }
-            catch (IOException e) {
+                ivTune.setImageBitmap(yourSelectedImage);
+            } catch (IOException e) {
                 e.printStackTrace();
             }
             // ivTune.setImageURI(data.getData());
-           // mCurrentPhotoPath = data.getData().;
-           Log.d("PATH",mCurrentPhotoPath );
+            // mCurrentPhotoPath = data.getData().;
+            Log.d("PATH", mCurrentPhotoPath);
         }
 
     }
 
-        @Override
-        public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
-            switch (requestCode){
-                case PERMISSION_CODE:{
-                    if (grantResults.length >0 && grantResults[0] ==
-                            PackageManager.PERMISSION_GRANTED){
-                        //permission was granted
-                        pickImageFromGallery();
-                    }
-                    else {
-                        //permission was denied
-                        Toast.makeText(this, "Permission denied...!", Toast.LENGTH_SHORT).show();
-                    }
+    @Override
+    public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
+        switch (requestCode) {
+            case PERMISSION_CODE: {
+                if (grantResults.length > 0 && grantResults[0] ==
+                        PackageManager.PERMISSION_GRANTED) {
+                    //permission was granted
+                    pickImageFromGallery();
+                } else {
+                    //permission was denied
+                    Toast.makeText(this, "Permission denied...!", Toast.LENGTH_SHORT).show();
                 }
             }
-
         }
 
+    }
 
+    //Validation Functions
+    private boolean validateDate(){
+        String input = etDate.getText().toString();
+
+        if (input.isEmpty()) {
+            etDate.setError("Lesson date can not be empty");
+            return false;
+        }else{
+            etDate.setError(null);
+            tilDate.setErrorEnabled(false);
+            stDate = input;
+            return true;
+        }
+    }
+    private boolean validateNote(){
+        String input = etNotes.getText().toString();
+
+        if (input.isEmpty()) {
+            etNotes.setError("Lesson note can not be empty");
+            return false;
+        }else{
+            etNotes.setError(null);
+            tilNotes.setErrorEnabled(false);
+            notes = input;
+            return true;
+        }
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        //hide soft keyboard - https://stackoverflow.com/questions/8997225/how-to-hide-android-soft-keyboard-on-edittext
+        etDate.setCursorVisible(false);
+        etDate.setFocusableInTouchMode(false);
+        etDate.setFocusable(false);
+    }
 }

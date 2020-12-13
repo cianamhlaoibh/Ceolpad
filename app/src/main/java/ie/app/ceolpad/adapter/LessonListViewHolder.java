@@ -10,14 +10,14 @@ import ie.app.ceolpad.R;
 
 public class LessonListViewHolder extends RecyclerView.ViewHolder {
     TextView tvDate;
-    TextView tvLessonNotes;
+    TextView tvPreview;
     ImageView ibShare;
 
     public LessonListViewHolder(View itemView) {
         super(itemView);
 
         tvDate = itemView.findViewById(R.id.tvDate);
-       // tvLessonNotes = itemView.findViewById(R.id.tv);
+        tvPreview = itemView.findViewById(R.id.tvPreview);
         ibShare = itemView.findViewById(R.id.ibShare);
     }
 }
