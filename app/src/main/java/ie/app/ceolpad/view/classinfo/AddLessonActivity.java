@@ -87,7 +87,7 @@ public class AddLessonActivity extends AppCompatActivity implements View.OnClick
             @Override
             public void onClick(View v) {
                 final Calendar cldr = Calendar.getInstance();
-                int day = cldr.get(Calendar.DAY_OF_MONTH);
+                final int day = cldr.get(Calendar.DAY_OF_MONTH);
                 int month = cldr.get(Calendar.MONTH);
                 int year = cldr.get(Calendar.YEAR);
                 // date picker dialog
@@ -95,7 +95,12 @@ public class AddLessonActivity extends AppCompatActivity implements View.OnClick
                         new DatePickerDialog.OnDateSetListener() {
                             @Override
                             public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
-                                etDate.setText(dayOfMonth + "/" + (monthOfYear + 1) + "/" + year);
+                                if(dayOfMonth < 10) {
+                                    String day = "0" + dayOfMonth;
+                                    etDate.setText(year + "/" + (monthOfYear + 1) + "/" + day);
+                                }else{
+                                    etDate.setText(year + "/" + (monthOfYear + 1) + "/" + dayOfMonth);
+                                }
                             }
                         }, year, month, day);
                 //Restricts user to enter a date that is not in the future
@@ -174,6 +179,7 @@ public class AddLessonActivity extends AppCompatActivity implements View.OnClick
         if (resultCode == RESULT_OK && requestCode == IMAGE_PICK_CODE) {
             //set image to image view
             selectedImageUri = data.getData();
+            Log.d("IMAGE URI", "onActivityResult: " + selectedImageUri);
             mCurrentPhotoPath = ImageFilePath.getPath(getApplicationContext(), selectedImageUri);
 
             try {
@@ -213,7 +219,7 @@ public class AddLessonActivity extends AppCompatActivity implements View.OnClick
         String input = etDate.getText().toString();
 
         if (input.isEmpty()) {
-            etDate.setError("Lesson date can not be empty");
+            etDate.setError(getString(R.string.error_lesson_empty));
             return false;
         }else{
             etDate.setError(null);
@@ -223,10 +229,9 @@ public class AddLessonActivity extends AppCompatActivity implements View.OnClick
         }
     }
     private boolean validateNote(){
-        String input = etNotes.getText().toString();
-
+        String input = etNotes.getText().toString().trim();
         if (input.isEmpty()) {
-            etNotes.setError("Lesson note can not be empty");
+            etNotes.setError(getString(R.string.error_note_empty));
             return false;
         }else{
             etNotes.setError(null);
