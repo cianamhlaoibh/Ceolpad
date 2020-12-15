@@ -14,7 +14,10 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
+import com.google.android.material.textfield.TextInputLayout;
+
 import java.util.Calendar;
+import java.util.regex.Pattern;
 
 import ie.app.ceolpad.R;
 import ie.app.ceolpad.adapter.CustomSpinnerAdapter;
@@ -31,7 +34,7 @@ public class AddStudentActivity extends AppCompatActivity implements View.OnClic
     Button btnAdd, btnCancel;
     Toolbar toolbar;
     DatePickerDialog picker;
-
+    TextInputLayout tilFirstName, tilSurname, tilRegDate, tilEmail;
 
     private long classId;
     private String firstName, surname, regDate, instrument, email;
@@ -48,9 +51,13 @@ public class AddStudentActivity extends AppCompatActivity implements View.OnClic
         setContentView(R.layout.activity_add_student);
 
         etFirstName = findViewById(R.id.etFirstName);
+        tilFirstName = findViewById(R.id.tilFirstName);
         etSurname = findViewById(R.id.etSurname);
+        tilSurname = findViewById(R.id.tilSurname);
         etRegDate = findViewById(R.id.etRegDate);
+        tilRegDate = findViewById(R.id.tilRegDate);
         etEmail = findViewById(R.id.etEmail);
+        tilEmail = findViewById(R.id.tilEmail);
         spInstrument = findViewById(R.id.spInstrument);
         spClass = findViewById(R.id.spClass);
         btnAdd = findViewById(R.id.btnAdd);
@@ -126,11 +133,12 @@ public class AddStudentActivity extends AppCompatActivity implements View.OnClic
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.btnAdd:
-                firstName = etFirstName.getText().toString();
-                surname = etSurname.getText().toString();
-                regDate = etRegDate.getText().toString();
+
+            if(!validateDate() | !validateFirstName() | !validateSurame() | !validateEmail()){
+                    return;
+            }
+
                 instrument = spInstrument.getSelectedItem().toString();
-                email = etEmail.getText().toString();
                 classId = selectedClass.getId();
 
                 Student newStudent = new Student(-1, firstName, surname, regDate, instrument, email);
@@ -143,5 +151,69 @@ public class AddStudentActivity extends AppCompatActivity implements View.OnClic
                 finish();
                 break;
         }
+    }
+
+    //Validation Functions
+    private boolean validateDate(){
+        String input = etRegDate.getText().toString();
+        if (input.isEmpty()) {
+            etRegDate.setError(getString(R.string.error_date_empty));
+            return false;
+        }else{
+            etRegDate.setError(null);
+            tilRegDate.setErrorEnabled(false);
+            regDate = input;
+            return true;
+        }
+    }
+    private boolean validateFirstName(){
+        String input = etFirstName.getText().toString().trim();
+        if (input.isEmpty()) {
+            etFirstName.setError(getString(R.string.error_fname_empty));
+            return false;
+        }else{
+            etFirstName.setError(null);
+            tilFirstName.setErrorEnabled(false);
+            firstName = input;
+            return true;
+        }
+    }
+    private boolean validateSurame(){
+        String input = etSurname.getText().toString().trim();
+        if (input.isEmpty()) {
+            etSurname.setError(getString(R.string.error_surname_empty));
+            return false;
+        }else{
+            etSurname.setError(null);
+            tilSurname.setErrorEnabled(false);
+            surname = input;
+            return true;
+        }
+    }
+    private boolean validateEmail(){
+        String input = etEmail.getText().toString().trim();
+        //String checkEmail = "[a-zA-Z0-9._-]+@[a-z]+\\.+[a-z]+";
+        Pattern regex = Pattern.compile("[a-zA-Z0-9._-]+@[a-z]+\\.+[a-z]+");
+        if (input.isEmpty()) {
+            etEmail.setError(getString(R.string.error_email_empty));
+            return false;
+        }else if(!input.matches(regex.toString())) {
+            etEmail.setError(getString(R.string.error_email_invalid));
+            return false;
+        }else{
+            etEmail.setError(null);
+            tilEmail.setErrorEnabled(false);
+            email = input;
+            return true;
+        }
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        //hide soft keyboard - https://stackoverflow.com/questions/8997225/how-to-hide-android-soft-keyboard-on-edittext
+        etRegDate.setCursorVisible(false);
+        etRegDate.setFocusableInTouchMode(false);
+        etRegDate.setFocusable(false);
     }
 }
